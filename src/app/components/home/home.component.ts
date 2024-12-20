@@ -1,99 +1,63 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { StatusTask, Task } from '../../interfaces/todo.interface';
-import { TodoService } from '../../services/todo.service.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Task } from '../../interfaces/todo.interface';
+import { loadTasks, addTask, updateTask, deleteTask, selectTaskForEdit } from '../../store/actions/todo.actions';
+import { selectAllTasks, selectSelectedTask } from '../../store/selectors/todo.selectors';
 import { Router } from '@angular/router';
-
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-  @Output() updateTask = new EventEmitter<Task>(); //Decorador para salida de datos
-
-  editFormGroup: FormGroup<{
-    title: FormControl<string>;
-    description: FormControl<string>;
-    status: FormControl<StatusTask>;
-  }>;
-
-  editingTask: Task | null = null; //Verifica que la tarea se este editando
-  isDeleting: boolean = false; //Verifica si la tarea se ha eliminado
-
+  tasks$: Observable<Task[]>;
   title = 'To-Do List';
-  todos: Task[] = [];
+  searchForm: FormGroup;
   searchTerm: string = '';
 
-  //Constructor para editar tarea
-  constructor(private todoService: TodoService, private cdr: ChangeDetectorRef, private fb: FormBuilder, private router: Router) {
-    this.editFormGroup = this.fb.nonNullable.group({
-      title: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
-      description: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(5)]),
-      status: this.fb.nonNullable.control('To Do' as StatusTask, Validators.required),
+  constructor(private store: Store, private router: Router, private fb: FormBuilder) {
+    this.tasks$ = this.store.select(selectAllTasks);
+    this.searchForm = this.fb.group({
+      query: ['']
     });
   }
 
-  //Cargar las tareas cuando se inicializa el proyecto
   ngOnInit(): void {
-    this.loadTasks();
-  }
+    this.store.dispatch(loadTasks());
 
-  //Cargar las tareas
-  loadTasks(): void {
-    this.todoService.get().subscribe((tasks) => {
-      this.todos = tasks;
-      this.cdr.detectChanges(); // Fuerza la detección de cambios
+    this.searchForm.get('query')?.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(query => {
+      this.searchTerm = query;
     });
   }
 
-  //Agregar tarea
-  addTask(newTask: Task): void {
-    this.todoService.add(newTask);
-    this.loadTasks();
+  addTask(task: Task): void {
+    const newTask = { ...task, id: task.id ?? Date.now() };
+    this.store.dispatch(addTask({ task: newTask }));
   }
 
-  //Eliinar tarea
+  updateTask(task: Task): void {
+    this.store.dispatch(updateTask({ task }));
+  }
+
   deleteTask(taskId: number): void {
-    this.todoService.delete(taskId);
-    this.loadTasks();
+    this.store.dispatch(deleteTask({ taskId }));
   }
 
-  //Valida que la tarea se pueda editar
-  startEditing(task: Task): void {
-    this.editingTask = task;
-    this.isDeleting = false;
-    this.editFormGroup.patchValue({
-      title: this.editingTask.title,
-      description: this.editingTask.description,
-      status: this.editingTask.status,
-    });
+  editTask(taskId: number): void {
+    this.router.navigate(['/edit', taskId]);  
   }
 
-  //Editar estado de la tarea cuando este cambie
-  updateTaskStatus(index: number, status: Task['status']) {
-    this.todos[index].status = status;
-  }
-  //Cancela la edicion de la tarea
-  cancelEditing(): void {
-    this.editingTask = null;
-    this.editFormGroup.reset({ status: 'To Do' });
-  }
-  //La tarea se puede editar mientras no se haya borrado
-  canDelete(): boolean {
-    return this.editingTask === null;
-  }
-
-  onTaskUpdated(updatedTask: Task): void {
-    const index = this.todos.findIndex((task) => task.id === updatedTask.id);
-    if (index !== -1) {
-      this.todos[index] = updatedTask;
-    }
-    this.loadTasks(); // Refresca las tareas desde el servicio
-  }
-
-  logout() {
+  logout(): void {
     this.router.navigate(['/']);
+  }
+
+  cancel(): void {
+    this.router.navigate(['home']);
   }
 }

@@ -1,13 +1,13 @@
 <!--Add Task-->
 <div class="task-form">
-  <form [formGroup]="formGroup" (ngSubmit)="addTask()">
+  <form [formGroup]="form" (ngSubmit)="submitForm()">
     <input type="text" formControlName="title" placeholder="Task title" required />
-    <div *ngIf="formGroup.controls['title'].invalid && formGroup.controls['title'].touched" class="error">
+    <div *ngIf="form.controls['title'].invalid && form.controls['title'].touched" class="error">
       Title is required and must be at least 3 characters long.
     </div>
 
     <textarea formControlName="description" placeholder="Task description" required></textarea>
-    <div *ngIf="formGroup.controls['description'].invalid && formGroup.controls['description'].touched" class="error">
+    <div *ngIf="form.controls['description'].invalid && form.controls['description'].touched" class="error">
       Description is required and must be at least 5 characters long.
     </div>
 
@@ -17,6 +17,6 @@
       <option value="Done">Done</option>
     </select>
 
-    <button type="submit" [disabled]="formGroup.invalid">Add Task</button>
+    <button type="submit" [disabled]="form.invalid">Add Task</button>
   </form>
 </div>

@@ -1,39 +1,35 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Task, StatusTask } from '../../interfaces/todo.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Task } from '../../interfaces/todo.interface';
 
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.css'],
 })
 export class TaskFormComponent {
-  @Output() submitTask = new EventEmitter<Task>();
+  @Input() task: Task | null = null;
+  @Output() onSubmit = new EventEmitter<Task>();
+  form: FormGroup;
 
-  formGroup: FormGroup<{
-    title: FormControl<string>;
-    description: FormControl<string>;
-    status: FormControl<StatusTask>;
-  }>;
-  //Requisitos para agregar una tarea
   constructor(private fb: FormBuilder) {
-    this.formGroup = this.fb.nonNullable.group({
-      title: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(3)]),
-      description: this.fb.nonNullable.control('', [Validators.required, Validators.minLength(5)]),
-      status: this.fb.nonNullable.control('To Do' as StatusTask, Validators.required),
+    this.form = this.fb.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      status: ['To Do', Validators.required]
     });
   }
-  //Agregar tarea
-  addTask(): void {
-    if (this.formGroup.valid) {
-      const newTask: Task = {
-        id: 0,
-        title: this.formGroup.get('title')!.value,
-        description: this.formGroup.get('description')!.value,
-        status: this.formGroup.get('status')!.value,
-      };
-      this.submitTask.emit(newTask);
-      this.formGroup.reset({ status: 'To Do' });
+
+  ngOnChanges(): void {
+    if (this.task) {
+      this.form.patchValue(this.task);
     }
   }
+
+submitForm(): void {
+  if (this.form.valid) {
+    const newTask = { ...this.form.value, id: this.task?.id ?? Date.now() }; 
+    this.onSubmit.emit(newTask);
+    this.form.reset();
+  }
+}
 }

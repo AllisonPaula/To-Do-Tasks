@@ -1,12 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { Task } from '../../interfaces/todo.interface';
 
-export const LOAD_TODOS = '[TODO] Load todos from localStorage';
-export const ADD_TODO = '[TODO] Add todo';
-export const UPDATE_TODO = '[TODO] Update todo';
-export const DELETE_TODO = '[TODO] Delete todo';
-
-export const loadTodos = createAction(LOAD_TODOS);
-export const addTodo = createAction(ADD_TODO, props<{ task: Task }>());
-export const updateTodo = createAction(UPDATE_TODO, props<{ task: Task }>());
-export const deleteTodo = createAction(DELETE_TODO, props<{ id: number }>());
+export const loadTasks = createAction('[Todo] Load Tasks');
+export const loadTasksSuccess = createAction('[Todo] Load Tasks Success', props<{ tasks: Task[] }>());
+export const loadTasksFailure = createAction('[Todo] Load Tasks Failure', props<{ error: string }>());
+export const addTask = createAction('[Todo] Add Task', props<{ task: Task }>());
+export const updateTask = createAction('[Todo] Update Task', props<{ task: Task }>());
+export const deleteTask = createAction('[Todo] Delete Task', props<{ taskId: number }>());
+export const selectTaskForEdit = createAction('[Todo] Select Task For Edit', props<{ taskId: number }>());
+export const updateTaskFromEditForm = createAction('[Todo] Update Task From Edit Form', props<{ task: Task }>());

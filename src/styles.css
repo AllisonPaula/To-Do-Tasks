@@ -13,7 +13,7 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-  background-color: #fff;
+  background-color: #000000;
   margin: 0;
   padding: 0;
 }
@@ -47,6 +47,7 @@ header .out-btn:hover {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 h1 {
   text-align: center;
@@ -175,7 +176,6 @@ h2 {
 .cancel-btn {
   background-color: #db3529;
   color: white;
-  padding: 6px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -187,6 +187,10 @@ h2 {
 
 .delete-btn:hover {
   background-color: #e75348;
+}
+
+.cancel-btn{
+  padding: 8px 15px;
 }
 
 .cancel-btn:hover {

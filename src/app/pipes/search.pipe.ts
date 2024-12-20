@@ -1,4 +1,3 @@
-
 import { Pipe, PipeTransform } from '@angular/core';
 import { Task } from '../interfaces/todo.interface';
 

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { login } from '../../store/actions/login.actions';
+import { AuthState } from '../../store/reducers/login.reducers';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ export class LoginComponent {
   title = 'Login';
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private store: Store<{ auth: AuthState }>) {
     this.loginForm = this.fb.group({
       user: ['', Validators.required],
       password: ['', Validators.required]
@@ -20,11 +22,6 @@ export class LoginComponent {
 
   onSubmit(): void {
     const { user, password } = this.loginForm.value;
-
-    if (user === 'Adopem' && password === '1234') {
-      this.router.navigate(['home']);
-    } else {
-      alert('Invalid credentials. Please try again.');
-    }
+    this.store.dispatch(login({ user, password }));
   }
 }

@@ -14,7 +14,10 @@ import { LoginComponent } from './components/login/login.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { todoReducer } from './store/reducers/todo.reducers';
-
+import { EffectsModule } from '@ngrx/effects';
+import { authReducer } from './store/reducers/login.reducers';
+import { AuthEffects } from './store/effects/login.effects';
+import { TodoEffects } from './store/effects/todo.effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,8 +35,9 @@ import { todoReducer } from './store/reducers/todo.reducers';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    StoreModule.forRoot({ todos: todoReducer }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, autoPause: true })
+    StoreModule.forRoot({ todo: todoReducer, auth: authReducer }), 
+    StoreDevtoolsModule.instrument({ maxAge: 25, autoPause: true }),
+    EffectsModule.forRoot([AuthEffects, TodoEffects]) 
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,46 +1,54 @@
-/*import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LocalStorageService } from '../../services/local-storage.service';
-import { loadTodos, loadTodosSuccess, addTodo, updateTodo, deleteTodo } from '../actions/todo.actions';
-import { map, tap } from 'rxjs/operators';
+import { map, catchError, tap, switchMap } from 'rxjs/operators';
+import * as TodoActions from '../actions/todo.actions';
+import { TodoService } from '../../services/todo.service.service';
+import { loadTasks, loadTasksSuccess, loadTasksFailure } from '../actions/todo.actions';
+import { Task } from '../../interfaces/todo.interface';
+import { of } from 'rxjs';
 
 @Injectable()
 export class TodoEffects {
-    constructor(private actions$: Actions, private localStorageService: LocalStorageService) { }
+  constructor(private actions$: Actions, private todoService: TodoService) {}
 
-    loadTodos$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(loadTodos),
-            map(() => {
-                const todos = this.localStorageService.getTodos();
-                return loadTodosSuccess({ todos });
-            })
-        )
-    );
+  loadTasks$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadTasks),
+      switchMap(() => {
+        try {
+          const tasks: Task[] = JSON.parse(localStorage.getItem('tasks') || '[]');
+          return of(loadTasksSuccess({ tasks }));
+        } catch (error) {
+          return of(loadTasksFailure({ error: 'Failed to load tasks from local storage' }));
+        }
+      })
+    )
+  );
 
-    saveTodos$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(addTodo, updateTodo, deleteTodo),
-                tap(({ type, ...rest }) => {
-                    const todos = this.localStorageService.getTodos();
-                    switch (type) {
-                        case '[TODO] Add Todo':
-                            todos.push(rest['todo']);
-                            break;
-                        case '[TODO] Update Todo':
-                            const index = todos.findIndex(t => t.id === rest['todo'].id);
-                            if (index > -1) todos[index] = rest['todo'];
-                            break;
-                        case '[TODO] Delete Todo':
-                            const id = rest['id'];
-                            const filteredTodos = todos.filter(t => t.id !== id);
-                            this.localStorageService.saveTodos(filteredTodos);
-                            return;
-                    }
-                    this.localStorageService.saveTodos(todos);
-                })
-            ),
-        { dispatch: false }
-    );
-}*/
+  addTask$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TodoActions.addTask),
+        tap(({ task }) => this.todoService.addTaskToLocalStorage(task))
+      ),
+    { dispatch: false }
+  );
+
+  updateTask$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TodoActions.updateTask),
+        tap(({ task }) => this.todoService.updateTaskInLocalStorage(task))
+      ),
+    { dispatch: false }
+  );
+
+  deleteTask$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(TodoActions.deleteTask),
+        tap(({ taskId }) => this.todoService.deleteTaskFromLocalStorage(taskId))
+      ),
+    { dispatch: false }
+  );
+}

@@ -1,34 +1,43 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadTodos, addTodo, updateTodo, deleteTodo } from '../actions/todo.actions';
+import { loadTasksSuccess, addTask, updateTask, deleteTask, loadTasks, selectTaskForEdit, updateTaskFromEditForm } from '../actions/todo.actions';
 import { Task } from '../../interfaces/todo.interface';
 
 export interface TodoState {
-    tasks: Task[];
+  tasks: Task[];
+  selectedTask: Task | null;
 }
 
-const initialState: TodoState = {
-    tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
+export const initialState: TodoState = {
+  tasks: [],
+  selectedTask: null
 };
 
 export const todoReducer = createReducer(
-    initialState,
-    on(loadTodos, (state) => ({
-        ...state,
-        tasks: JSON.parse(localStorage.getItem('tasks') || '[]'),
-    })),
-    on(addTodo, (state, { task }) => {
-        const updatedTasks = [...state.tasks, task];
-        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        return { ...state, tasks: updatedTasks };
-    }),
-    on(updateTodo, (state, { task }) => {
-        const updatedTasks = state.tasks.map(t => t.id === task.id ? task : t);
-        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        return { ...state, tasks: updatedTasks };
-    }),
-    on(deleteTodo, (state, { id }) => {
-        const updatedTasks = state.tasks.filter(task => task.id !== id);
-        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-        return { ...state, tasks: updatedTasks };
-    })
+  initialState,
+  on(loadTasks, (state) => ({ ...state })),
+  on(loadTasksSuccess, (state, { tasks }) => ({ ...state, tasks })),
+  on(addTask, (state, { task }) => {
+    const updatedTasks = [...state.tasks, { ...task, id: task.id ?? Date.now() }];
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    return { ...state, tasks: updatedTasks };
+  }),
+  on(updateTask, (state, { task }) => {
+    const updatedTasks = state.tasks.map(t => t.id === task.id ? task : t);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    return { ...state, tasks: updatedTasks };
+  }),
+  on(updateTaskFromEditForm, (state, { task }) => {
+    const updatedTasks = state.tasks.map(t => t.id === task.id ? task : t);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    return { ...state, tasks: updatedTasks, selectedTask: null };
+  }),
+  on(deleteTask, (state, { taskId }) => {
+    const updatedTasks = state.tasks.filter(task => task.id !== taskId);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+    return { ...state, tasks: updatedTasks };
+  }),
+  on(selectTaskForEdit, (state, { taskId }) => ({
+    ...state,
+    selectedTask: state.tasks.find(task => task.id === taskId) || null
+  }))
 );

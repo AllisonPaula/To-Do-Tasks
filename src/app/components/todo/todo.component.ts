@@ -1,34 +1,36 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Task, StatusTask } from '../../interfaces/todo.interface';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectTaskForEdit } from '../../store/actions/todo.actions';
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
-  styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent {
-  @Input() title!: string; //Decorador de entrada de datos
-  @Input() description!: string;
-  @Input() status!: StatusTask;
-  @Input() id!: number;
-  @Output() deleteTask = new EventEmitter<number>(); //Decorador de salida de datod
-  @Output() editTask = new EventEmitter<Task>();
+  @Input() task!: Task;
+  @Output() onUpdate = new EventEmitter<Task>();
+  @Output() onDelete = new EventEmitter<number>();
   @Output() updatedTask = new EventEmitter<StatusTask>();
 
-  constructor(private router: Router) { }
-  //Eliminar tarea
-  onDelete(): void {
-    this.deleteTask.emit(this.id);
+  constructor(private router: Router, private store: Store) { }
+  
+  editTask(): void {
+    if (this.task.id) {
+      this.store.dispatch(selectTaskForEdit({ taskId: this.task.id }));
+      this.router.navigate(['/edit', this.task.id]);
+    } else {
+      this.router.navigate(['**']);
+    }
   }
 
-  //Editar tarea
-  onEdit(): void {
-    this.router.navigate(['edit', this.id]); // Redirecciona a /edit/:id
+  deleteTask(): void {
+    this.onDelete.emit(this.task.id);
   }
 
-  //Actualizar estado de la tarea
-  updateStatus() {
-    this.updatedTask.emit(this.status)
+  updateStatus(status: StatusTask): void {
+    const updatedTask = { ...this.task, status };
+    this.onUpdate.emit(updatedTask);
   }
 }
