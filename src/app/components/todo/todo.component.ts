@@ -7,6 +7,7 @@ import { selectTaskForEdit } from '../../store/actions/todo.actions';
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
+  styleUrl: './todo.component.css',
 })
 export class TodoComponent {
   @Input() task!: Task;
@@ -15,7 +16,7 @@ export class TodoComponent {
   @Output() updatedTask = new EventEmitter<StatusTask>();
 
   constructor(private router: Router, private store: Store) { }
-  
+
   editTask(): void {
     if (this.task.id) {
       this.store.dispatch(selectTaskForEdit({ taskId: this.task.id }));

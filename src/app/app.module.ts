@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -35,9 +35,9 @@ import { TodoEffects } from './store/effects/todo.effects';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    StoreModule.forRoot({ todo: todoReducer, auth: authReducer }), 
+    StoreModule.forRoot({ todo: todoReducer, auth: authReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, autoPause: true }),
-    EffectsModule.forRoot([AuthEffects, TodoEffects]) 
+    EffectsModule.forRoot([AuthEffects, TodoEffects,]),
   ],
   providers: [],
   bootstrap: [AppComponent]

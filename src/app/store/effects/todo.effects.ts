@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, catchError, tap, switchMap } from 'rxjs/operators';
 import * as TodoActions from '../actions/todo.actions';
-import { TodoService } from '../../services/todo.service.service';
+import { TodoService } from '../../services/todo.service';
 import { loadTasks, loadTasksSuccess, loadTasksFailure } from '../actions/todo.actions';
 import { Task } from '../../interfaces/todo.interface';
 import { of } from 'rxjs';
 
 @Injectable()
 export class TodoEffects {
-  constructor(private actions$: Actions, private todoService: TodoService) {}
+  constructor(private actions$: Actions, private todoService: TodoService) { }
 
   loadTasks$ = createEffect(() =>
     this.actions$.pipe(

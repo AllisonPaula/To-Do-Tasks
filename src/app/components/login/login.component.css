@@ -2,7 +2,7 @@
   max-width: 400px;
   margin: auto;
   margin-top: 30px;
-  padding: 20px;
+  padding: 25px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #f9f9f9;
@@ -15,14 +15,15 @@
 }
 
 .wel h1 {
-  font-size: 24px;
-  color: #333;
+  font-size: 30px;
+  color: #000000;
 }
 
 .ima {
   width: 150px;
   height: 150px;
-  border-radius: 50%;
+  border-radius: 25%;
+  padding-top: 20px;
 }
 
 .us label {
@@ -33,7 +34,7 @@
 }
 
 .us input {
-  width: 100%;
+  width: 95%;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
@@ -41,12 +42,12 @@
 }
 
 .us input.invalid {
-  border-color: #e74c3c;
+  border-color: #e6311c;
 }
 
 .error {
-  color: #e74c3c;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .in {
@@ -74,6 +75,7 @@
   font-size: 14px;
   color: #028391;
   text-decoration: none;
+  padding-bottom: 25px;
 }
 
 .in a:hover {

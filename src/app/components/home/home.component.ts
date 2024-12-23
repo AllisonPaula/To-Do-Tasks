@@ -11,6 +11,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
   tasks$: Observable<Task[]>;
@@ -50,7 +51,7 @@ export class HomeComponent implements OnInit {
   }
 
   editTask(taskId: number): void {
-    this.router.navigate(['/edit', taskId]);  
+    this.router.navigate(['/edit', taskId]);
   }
 
   logout(): void {

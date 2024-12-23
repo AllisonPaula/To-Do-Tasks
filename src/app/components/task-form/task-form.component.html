@@ -3,12 +3,12 @@
   <form [formGroup]="form" (ngSubmit)="submitForm()">
     <input type="text" formControlName="title" placeholder="Task title" required />
     <div *ngIf="form.controls['title'].invalid && form.controls['title'].touched" class="error">
-      Title is required and must be at least 3 characters long.
+      Title is requierd, must be at least 3 characters and maximun 15.
     </div>
 
     <textarea formControlName="description" placeholder="Task description" required></textarea>
     <div *ngIf="form.controls['description'].invalid && form.controls['description'].touched" class="error">
-      Description is required and must be at least 5 characters long.
+      Description is requeried, must be at least 5 characters and maximun 30.
     </div>
 
     <select formControlName="status">

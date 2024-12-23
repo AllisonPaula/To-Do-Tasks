@@ -10,6 +10,7 @@ import { selectSelectedTask } from '../../store/selectors/todo.selectors';
 @Component({
   selector: 'app-edit-form',
   templateUrl: './edit-form.component.html',
+  styleUrl: './edit-form.component.css',
 })
 export class EditFormComponent implements OnInit {
   editFormGroup: FormGroup;
@@ -22,8 +23,8 @@ export class EditFormComponent implements OnInit {
     private store: Store<{ todo: TodoState }>
   ) {
     this.editFormGroup = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(5)]],
+      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       status: ['To Do' as StatusTask, Validators.required]
     });
   }
