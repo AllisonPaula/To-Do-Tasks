@@ -23,8 +23,8 @@ export class EditFormComponent implements OnInit {
     private store: Store<{ todo: TodoState }>
   ) {
     this.editFormGroup = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
-      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(5)]],
       status: ['To Do' as StatusTask, Validators.required]
     });
   }

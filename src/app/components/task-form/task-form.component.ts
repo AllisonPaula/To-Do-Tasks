@@ -15,8 +15,8 @@ export class TaskFormComponent {
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       title: ['', Validators.required],
-      description: ['', Validators.required, Validators.minLength(3), Validators.maxLength(15)],
-      status: ['To Do', Validators.required, Validators.minLength(5), Validators.maxLength(30)]
+      description: ['', Validators.required],
+      status: ['To Do', Validators.required]
     });
   }
 
