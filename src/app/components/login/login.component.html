@@ -1,29 +1,32 @@
-<div class="task">
-  <div class="wel">
-    <h1>{{ title }}</h1>
-    <img class="ima" src="assets/person.png" alt="avatar" />
+<div class="max-w-96 m-auto mt-8 p-6 border-solid border-gray-200 border-1 rounded-xl shadow-md bg-black ">
+  <div class="text-center mb-5">
+    <h1 class="text-3xl mb-5">{{ title }}</h1>
+    <img class="w-36 h-36 rounded-xl pt-5" src="assets/person.png" alt="avatar" />
   </div>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="us">
-      <label for="user">User</label>
+    <div>
+      <label for="user" class="block mx-1 my-2  text-sm text-white">User</label>
       <input id="user" type="text" formControlName="user" placeholder="Enter your user"
+        class="w-full p-2 mb-2 border-solid border-2 border-slate-100"
         [class.invalid]="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" />
       <div *ngIf="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" class="error">
         User is required
       </div>
 
-      <label for="password">Password</label>
+      <label for="password" class="block mx-1 my-2  text-sm text-white">Password</label>
       <input id="password" type="password" formControlName="password" placeholder="Enter your password"
-        [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+        [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        class="w-full p-2 mb-2 border-solid border-2 border-slate-100" />
       <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
         Password is required
       </div>
     </div>
 
-    <div class="in">
-      <button type="submit" [disabled]="loginForm.invalid">Log In</button>
-      <a href="**">Sign Up</a>
+    <div class="in text-center">
+      <button type="submit" [disabled]="loginForm.invalid"
+        class=" bg-blue-400 text-white py-2 px-5 border-none rounded-md cursor-pointer text-base">Log In</button>
+      <a href="**" class="block mt-2 text-sm text-sky-500 no-underline pb-6 hover:underline">Sign Up</a>
     </div>
   </form>
 </div>

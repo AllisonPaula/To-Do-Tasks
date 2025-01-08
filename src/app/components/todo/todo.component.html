@@ -1,12 +1,16 @@
-<div class="task">
-  <h4>{{ task.title }}</h4>
-  <p>{{ task.description }}</p>
-  <select [(ngModel)]="task.status" (ngModelChange)="updateStatus($event)">
+<div class="bg-gray-50 p-3 mb-4 rounded-md shadow-md hover:bg-gray-100">
+  <h4 class="text-base text-gray-900 font-medium">{{ task.title }}</h4>
+  <p class="text-sm text-gray-700 mb-3">{{ task.description }}</p>
+  <select [(ngModel)]="task.status" (ngModelChange)="updateStatus($event)"
+    class="bg-slate-200 rounded-l-md p-1 font-medium text-xs">
     <option value="To Do">To Do</option>
     <option value="In Progress">In Progress</option>
     <option value="Done">Done</option>
   </select>
-  <button (click)="deleteTask()" class="delete-btn"><img src="../../../assets/delete.png" class="hola"
-      alt="boton"></button>
-  <button (click)=" editTask()" class="edit-btn"><img src="../../../assets/edit.png" class="hola" alt="boton"></button>
+  <button (click)="deleteTask()"
+    class="bg-red-600 px-1 py-1 border-none rounded-sm cursor-pointer text-sm ml-2 font-bold hover:bg-red-500"><img
+      src="../../../assets/delete.png" class="w-5 h-5" alt="boton"></button>
+  <button (click)=" editTask()"
+    class="bg-sky-700 px-1 py-1 border-none rounded-sm cursor-pointer text-sm ml-2 font-bold hover:bg-sky-600"><img
+      src="../../../assets/edit.png" class="w-5 h-5" alt="boton"></button>
 </div>

@@ -1,6 +1,8 @@
-<div class="page-not-found">
-  <h1>Page Not Found</h1>
-  <img class="imagen" src="assets/error.png" alt="404 Error" />
-  <p>The page you are looking for doesn't exist.</p>
-  <button type="button" class="back-btn" (click)="notfound()">Go Back</button>
+<div class="bg-white text-center p-6 items-center flex flex-col">
+  <h1 class="text-4xl font-bold mt-9">Page Not Found</h1>
+  <img class="w-72 h-72 items-center" src="assets/error.png" alt="404 Error" />
+  <p class=" text-2xl">The page you are looking for doesn't exist.</p>
+  <button type="button"
+    class="bg-green-700 text-white py-2 px-4 border-none rounded cursor-pointer text-base m-4 font-bold hover:bg-green-900"
+    (click)="notfound()">Go Back</button>
 </div>

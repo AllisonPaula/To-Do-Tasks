@@ -1,22 +1,27 @@
 <!--Add Task-->
-<div class="task-form">
+<div class="bg-white p-5 rounded-lg mb-8 shadow-md">
   <form [formGroup]="form" (ngSubmit)="submitForm()">
-    <input type="text" formControlName="title" placeholder="Task title" required />
+    <input type="text" formControlName="title" placeholder="Task title" required
+      class="w-full p-3 my-3 mx-0 border-solid border-gray-200 border-2 rounded text-base" />
     <div *ngIf="form.controls['title'].invalid && form.controls['title'].touched" class="error">
       Title is requierd, must be at least 3 characters and maximun 15.
     </div>
 
-    <textarea formControlName="description" placeholder="Task description" required></textarea>
+    <textarea formControlName="description" placeholder="Task description" required
+      class="w-full p-3 my-3 mx-0 border-solid border-gray-200 border-2 rounded text-base resize-none"></textarea>
     <div *ngIf="form.controls['description'].invalid && form.controls['description'].touched" class="error">
       Description is requeried, must be at least 5 characters and maximun 30.
     </div>
 
-    <select formControlName="status">
+    <select formControlName="status"
+      class="w-full p-3 my-3 mx-0 border-solid border-gray-200 border-2 rounded text-base">
       <option value="To Do">To Do</option>
       <option value="In Progress">In Progress</option>
       <option value="Done">Done</option>
     </select>
 
-    <button type="submit" [disabled]="form.invalid">Add Task</button>
+    <button type="submit" [disabled]="form.invalid"
+      class="bg-green-600 text-white py-2 px-4 border-none rounded-md cursor-pointer text-base font-bold hover:bg-green-700">Add
+      Task</button>
   </form>
 </div>
