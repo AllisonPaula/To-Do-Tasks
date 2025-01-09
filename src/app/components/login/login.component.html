@@ -1,32 +1,56 @@
-<div class="max-w-96 m-auto mt-8 p-6 border-solid border-gray-200 border-1 rounded-xl shadow-md bg-black ">
-  <div class="text-center mb-5">
-    <h1 class="text-3xl mb-5">{{ title }}</h1>
-    <img class="w-36 h-36 rounded-xl pt-5" src="assets/person.png" alt="avatar" />
+<div class="bg-gray-100 flex justify-center items-center h-screen">
+
+  <div class="w-1/2 h-screen hidden lg:block">
+    <img src="https://www.pngitem.com/pimgs/m/245-2456104_png-transparent-icon-todo-list-png-download.png"
+      alt="Book Image" class="object-cover w-full h-full">
   </div>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="user" class="block mx-1 my-2  text-sm text-white">User</label>
-      <input id="user" type="text" formControlName="user" placeholder="Enter your user"
-        class="w-full p-2 mb-2 border-solid border-2 border-slate-100"
-        [class.invalid]="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" />
-      <div *ngIf="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" class="error">
-        User is required
-      </div>
-
-      <label for="password" class="block mx-1 my-2  text-sm text-white">Password</label>
-      <input id="password" type="password" formControlName="password" placeholder="Enter your password"
-        [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-        class="w-full p-2 mb-2 border-solid border-2 border-slate-100" />
-      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
-        Password is required
-      </div>
+  <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+    <div class="text-center mb-5">
+      <h1 class="text-2xl font-semibold mb-4">{{title}}</h1>
     </div>
 
-    <div class="in text-center">
-      <button type="submit" [disabled]="loginForm.invalid"
-        class=" bg-blue-400 text-white py-2 px-5 border-none rounded-md cursor-pointer text-base">Log In</button>
-      <a href="**" class="block mt-2 text-sm text-sky-500 no-underline pb-6 hover:underline">Sign Up</a>
-    </div>
-  </form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="user" class="block text-gray-600">User</label>
+        <input id="user" type="text" formControlName="user" placeholder="Enter your user"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          autocomplete="off" [class.invalid]="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" />
+        <div *ngIf="loginForm.get('user')?.invalid && loginForm.get('user')?.touched" class="error">
+          User is required
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="block text-gray-600">Password</label>
+        <input id="password" type="password" formControlName="password" placeholder="Enter your password"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+          autocomplete="off" />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+          Password is required
+        </div>
+      </div>
+
+
+      <!-- Remember Me Checkbox -->
+      <div class="mb-4 flex items-center">
+        <input type="checkbox" id="remember" name="remember" class="text-blue-500">
+        <label for="remember" class="text-gray-600 ml-2">Remember Me</label>
+      </div>
+      <!-- Forgot Password Link -->
+      <div class="mb-6 text-blue-500">
+        <a href="**" class="hover:underline">Forgot Password?</a>
+      </div>
+
+
+      <div class="in text-center">
+        <button type="submit" [disabled]="loginForm.invalid"
+          class=" bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">Log In</button>
+        <div class="mt-6 text-blue-500 text-center">
+          <a href="**" class="hover:underline">Sign Up</a>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
