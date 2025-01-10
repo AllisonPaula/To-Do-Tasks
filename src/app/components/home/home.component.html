@@ -1,4 +1,4 @@
-<div class="container m-5 p-5 bg-slate-50 rounded-lg">
+<div class="container m-auto p-auto bg-slate-50 rounded-lg">
 
   <header class="text-end">
     <button type="submit"
@@ -6,7 +6,7 @@
       (click)="logout()">Log out</button>
   </header>
 
-  <h1 class="font-bold font-serif text-3xl text-center mb-7">{{ title }}</h1>
+  <h1 class="font-bold text-3xl text-center mb-7">{{ title }}</h1>
 
   <!-- Task Form -->
   <app-task-form (onSubmit)="addTask($event)"></app-task-form>

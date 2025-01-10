@@ -1,30 +1,31 @@
-<div class="container m-5 p-5 bg-slate-50 rounded-lg">
+<div class="container m-auto p-auto bg-slate-50 rounded-lg">
   <div class="bg-white p-5 rounded-lg mb-8 flex flex-col justify-center gap-5 mt-8 shadow-md">
     <h2 class="text-black text-2xl font-bold">Edit Task</h2>
     <form [formGroup]="editFormGroup" (ngSubmit)="save()">
-      <div>
-        <label for="title" class="font-medium text-center text-stone-600">Title</label>
+
+      <div class="mb-5">
+        <label for="title" class="font-light text-center text-stone-600">Title</label>
         <input id="title" formControlName="title"
-          class="w-full p-2 mx-2 my-0 border-2 border-solid border-gray-200 rounded-md text-sm" />
+          class="w-full p-2 mt-1 border-2 border-solid border-gray-200 rounded-md text-sm" />
         <div *ngIf="editFormGroup.get('title')?.invalid && editFormGroup.get('title')?.touched" class="error">
           Title is requierd, must be at least 3 characters and maximun 15.
         </div>
       </div>
 
-      <div>
-        <label for="description" class="font-medium text-center text-stone-600 ">Description</label>
+      <div class="mb-5">
+        <label for="description" class="font-light text-center text-stone-600 ">Description</label>
         <textarea id="description" formControlName="description"
-          class="w-full p-2 mx-2 my-0 border-2 border-solid border-gray-200 rounded-md text-sm"></textarea>
+          class="w-full p-2 mt-1 border-2 border-solid border-gray-200 rounded-md text-sm"></textarea>
         <div *ngIf="editFormGroup.get('description')?.invalid && editFormGroup.get('description')?.touched"
           class="error">
           Description is requeried, must be at least 5 characters and maximun 30.
         </div>
       </div>
 
-      <div>
-        <label for="status" class="font-medium text-center text-stone-600 ">Status</label>
+      <div class="mb-5">
+        <label for="status" class="font-light text-center text-stone-600 ">Status</label>
         <select id="status" formControlName="status"
-          class="w-full p-2 mx-2 my-0 border-2 border-solid border-gray-200 rounded-md text-sm">
+          class="w-full p-2 mt-1 border-2 border-solid border-gray-200 rounded-md text-sm">
           <option value="To Do">To Do</option>
           <option value="In Progress">In Progress</option>
           <option value="Done">Done</option>
